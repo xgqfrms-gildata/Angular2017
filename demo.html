@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML5 Drag and Drop</title>
+    <style>
+        .test-drop {
+            box-sizing: border-box;
+            min-width: 32px;
+            min-height: 32px;
+            max-width: 320px;
+            max-height: 320px;
+            padding: 10px;
+            background-color: #333;
+            border: 1px solid #777;
+        }
+        
+        .test-drag {
+            box-sizing: border-box;
+            width: 300px;
+            height: 300px;
+        }
+        
+        .test-area {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        https://developer.mozilla.org/zh-CN/docs/Web/API/HTML_Drag_and_Drop_API
+    </div>
+    <section class="test-area">
+        <p>Drag the image into the rectangle:</p>
+        <div class="test-drop" ondragover="allowDrop(event)" ondrop="drop(event)">
+            <!-- place image here! -->
+        </div>
+        <img id="img" class="test-drag" src="https://cdn.xgqfrms.xyz/logo/icon.png" draggable="true" ondragstart="drag(event)">
+        <!-- only can move whole element -->
+        <!-- id="img"  -->
+        <!-- Uncaught TypeError: Failed to execute 'appendChild' on 'Node': parameter 1 is not of type 'Node'. -->
+    </section>
+    <script>
+        const drag = (e) => {
+            // e.target.id
+            console.log(`drag id = `, e.target.id);
+            e.dataTransfer.setData("logo", e.target.id);
+            console.log(`drag id = `, e.dataTransfer.getData("logo"));
+        };
+        const drop = (e) => {
+            e.preventDefault();
+            let data = e.dataTransfer.getData("logo");
+            // img
+            console.log(`drop id = `, data);
+            console.log(`drop typeof(data) = `, typeof(data));
+            // string
+            // let element = document.getElementById(data);
+            let element = document.querySelector(`#${data}`);
+            e.target.appendChild(element);
+        };
+        const allowDrop = (e) => {
+            e.preventDefault();
+            // ???
+        };
+    </script>
+</body>
+
+</html>
